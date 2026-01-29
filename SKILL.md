@@ -1,6 +1,6 @@
 ---
 name: smart-voice-chat
-description: Intelligent voice conversation system - Auto-detect voice/text input, flexible output formats, Chinese-English mixed support
+description: Intelligent voice conversation system - Auto-detect voice/text input, reply in same format by default
 homepage: https://github.com/Johnny-xuan/smart-voice-chat
 metadata: {
   "moltbot": {
@@ -16,159 +16,177 @@ metadata: {
 
 # SmartVoice Chat 🗣️
 
-Intelligent voice conversation system powered by Sherpa-ONNX offline speech processing stack.
+Intelligent voice conversation system with automatic format detection and mirrored response mode.
 
-## Features
+## 🎯 How It Works
 
-- ✅ **Auto Input Detection**: Intelligently recognizes voice/text input
-- ✅ **Flexible Output Modes**: Supports voice/text/dual output modes
-- ✅ **Chinese-English Mixed**: Native support for Chinese + English mixed recognition and synthesis
-- ✅ **Fully Offline**: No network connection required, privacy-preserving
-- ✅ **Smart Intent Parsing**: Automatically understands desired output mode
-
-## How It Works
+**Core Principle**: Reply in the same format as the input (voice → voice, text → text)
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│  You Speak  │ →  │  Auto Detect│ →  │  AI Process │ →  │ Flexible    │
-│  or Type    │    │  (STT/Text) │    │             │    │ Output      │
-└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
-                        ↓                                  ↓
-                  Sherpa-ONNX                        Sherpa-ONNX
-                  Paraformer STT                      VITS-Melo TTS
+Voice Input → STT → AI Process → TTS → Voice Reply
+Text Input  → AI Process → Text Reply
 ```
 
-## Quick Start
+## 📋 Workflow for AI Agents
 
-### 1. Install Dependencies
+### Step 1: Detect Input Format
 
-Ensure Sherpa-ONNX components are installed:
+When receiving a message from the user:
 
+**Check if message contains:**
+- Voice attachment (audio/* mime type)
+- Audio file path (.wav, .ogg, .mp3, .m4a)
+
+**If voice detected:**
 ```bash
-# STT Model (Paraformer)
-~/.moltbot/tools/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09/
-
-# TTS Model (VITS-Melo)
-~/.moltbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en/
-
-# Python dependencies
-pip3 install sherpa-onnx pyyaml
+~/.clawdbot/skills/smart-voice-chat/bin/stt.py <audio_file>
 ```
 
-### 2. Usage
+**If text:**
+- Use the text directly
 
+### Step 2: Parse Intent
+
+Check the transcribed text for keywords:
+- "用语音回答", "读出来", "说一下" → Voice-only output
+- "用文字回答", "不用读", "只显示" → Text-only output
+- **Default** → Use same format as input (voice → voice, text → text)
+
+### Step 3: Process with AI
+
+Use the transcribed/cleaned text as the user's actual message for AI processing.
+
+### Step 4: Generate Response
+
+**For voice output or dual mode:**
 ```bash
-# Process audio file
-smart-voice.sh /path/to/audio.wav
-
-# Process text input
-smart-voice.sh "今天天气怎么样"
-
-# Interactive mode
-smart-voice.sh -i
+~/.clawdbot/skills/smart-voice-chat/bin/tts.py \
+  "<AI_RESPONSE_TEXT>" \
+  /tmp/smart-voice-chat/response_<timestamp>.wav
 ```
 
-## Output Mode Control
+**Then attach the audio file to the reply:**
+- For Telegram: Use audioAsVoice: true with mediaUrl
+- For iMessage: Attach the .wav file
+- For other channels: Attach based on channel capabilities
 
-### Keyword Control
+**For text-only mode:**
+- Send text only, no audio attachment
 
-Use keywords in conversation to control output mode:
+## 💡 Usage Examples
 
-| Keyword | Effect |
-|---------|--------|
-| "用语音回答" or "读出来" | Voice output only |
-| "用文字回答" or "不用读" | Text output only |
-| (default) | Dual mode (text + voice) |
-
-### Example Conversation
+### Example 1: Voice Input → Voice Reply (Default)
 
 ```
-You: 今天天气怎么样
-AI: [Text display] 今天晴天，气温25度
-   [Voice playback] 今天晴天，气温25度
+You: [Send voice message] "今天天气怎么样"
 
-You: 用语音回答：明天会下雨吗
-AI: [Voice playback] 明天可能有小雨
-
-You: 用文字回答：现在几点了
-AI: [Text display] 现在是下午4点
+AI: 
+  1. Detects voice attachment
+  2. Runs STT → "今天天气怎么样"
+  3. Processes AI → "今天晴天，气温25度"
+  4. Runs TTS → generates .wav file
+  5. Sends: "今天晴天，气温25度" + voice attachment
 ```
 
-## Tech Stack
-
-- **STT**: Sherpa-ONNX Paraformer (Chinese + English mixed recognition)
-- **TTS**: Sherpa-ONNX VITS-Melo (Chinese + English mixed synthesis)
-- **Language**: Python 3 + Bash
-- **Config**: YAML
-
-## Module Architecture
+### Example 2: Text Input → Text Reply (Default)
 
 ```
-smart-voice-chat/
-├── bin/
-│   ├── detector.py        # Input type detection
-│   ├── parser.py          # Intent parsing
-│   ├── stt.py             # STT wrapper
-│   ├── tts.py             # TTS wrapper
-│   ├── player.py          # Audio playback
-│   └── smart-voice.sh     # Main entry point
-└── lib/
-    └── orchestrator.py    # Flow orchestration
+You: "今天天气怎么样"
+
+AI:
+  1. Detects text input
+  2. Processes AI → "今天晴天，气温25度"
+  3. Sends: "今天晴天，气温25度" (text only)
 ```
 
-## Configuration
+### Example 3: Voice Input → Text Reply (Special Request)
 
-Edit `config/config.yaml` to customize behavior:
+```
+You: [Send voice] "用文字回答：今天几点了"
+
+AI:
+  1. Detects voice attachment
+  2. Runs STT → "用文字回答：今天几点了"
+  3. Parses intent → Text-only mode
+  4. Cleans text → "今天几点了"
+  5. Processes AI → "现在是下午4点"
+  6. Sends: "现在是下午4点" (text only, no voice)
+```
+
+### Example 4: Text Input → Voice Reply (Special Request)
+
+```
+You: "用语音回答：明天会下雨吗"
+
+AI:
+  1. Detects text input
+  2. Parses intent → Voice-only mode
+  3. Cleans text → "明天会下雨吗"
+  4. Processes AI → "明天可能有小雨"
+  5. Runs TTS → generates .wav file
+  6. Sends: voice attachment
+```
+
+## 🔧 Configuration
+
+Edit ~/.clawdbot/skills/smart-voice-chat/config/config.yaml:
 
 ```yaml
+# Default behavior
 voice:
-  input_mode: auto          # auto | voice_only | text_only
-  output_mode: dual         # dual | voice_only | text_only
-  auto_play: true           # Auto-play TTS
+  input_mode: auto          # Auto-detect input type
+  output_mode: mirror       # mirror = same format as input
+  auto_play: false          # Let Moltbot handle playback
 
+# STT settings
 stt:
-  model_path: ~/.moltbot/tools/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09
-  language: zh-en           # Chinese-English mixed
+  model_path: ~/.clawdbot/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09
+  language: zh-en
 
+# TTS settings
 tts:
-  model_path: ~/.moltbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en
+  model_path: ~/.clawdbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en
+  output_dir: /tmp/smart-voice-chat
 ```
 
-## Comparison with Traditional Solutions
+## 🎨 Reply Format
 
-| Feature | SmartVoice Chat | Traditional voice-chat |
-|---------|----------------|----------------------|
-| Input detection | ✅ Auto recognize | ❌ Manual specification |
-| Output control | ✅ Keywords + config | ❌ Fixed mode |
-| Chinese-English mixed | ✅ Native support | ⚠️ Model switching |
-| Flexibility | ✅ Highly configurable | ❌ Hardcoded |
+### For Telegram
 
-## Troubleshooting
-
-### STT Not Working
-```bash
-# Check if model exists
-ls ~/.moltbot/tools/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09/
-
-# Test STT CLI
-~/.moltbot/tools/sherpa-stt/sherpa-stcli.py test.wav
+```json
+{
+  "text": "AI response text",
+  "mediaUrl": "/tmp/smart-voice-chat/response_xxx.wav",
+  "audioAsVoice": true
+}
 ```
 
-### TTS Not Working
-```bash
-# Check if model exists
-ls ~/.moltbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en/
+### For iMessage
 
-# Test TTS
-sherpa-onnx-offline-tts --help
+```json
+{
+  "text": "AI response text",
+  "attachments": [
+    {
+      "original_path": "/tmp/smart-voice-chat/response_xxx.wav"
+    }
+  ]
+}
 ```
 
-### Audio Format Issues
-```bash
-# Convert audio to WAV format
-ffmpeg -i input.mp3 -ar 16000 -ac 1 output.wav
-```
+## ⚠️ Important Notes
+
+1. **Default mode is "mirror"**: Reply in same format as input
+2. **Always transcribe voice first**: Don't process raw audio files
+3. **Clean intent keywords**: Remove "用语音回答" etc. before AI processing
+4. **Generate unique filenames**: Use timestamp or random ID for TTS output
+5. **Handle STT failures**: If transcription fails, ask user to repeat
+
+## 📊 Supported Audio Formats
+
+**Input**: .wav, .mp3, .m4a, .ogg, .opus, .flac
+**Output**: .wav (can be converted to .ogg for Telegram optimization)
 
 ---
 
-**TL;DR**: Auto-detect input type, flexible output selection, fully offline Chinese-English mixed voice conversation system.
+**TL;DR**: Auto-detect input format → Process with AI → Reply in same format (unless user requests otherwise)
