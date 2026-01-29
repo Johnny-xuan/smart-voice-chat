@@ -12,12 +12,34 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects
 - 🔒 **Fully Offline** - No cloud, privacy-preserving
 - 📱 **Telegram Ready** - Outputs OGG format for voice messages
 
-## 📋 Requirements
+## 📋 System Requirements
 
-- **Clawdbot**: [Installation Guide](https://docs.clawd.bot/start/getting-started)
-- **FFmpeg**: For audio conversion (`brew install ffmpeg` on macOS)
-- **Python 3.8+**: For STT/TTS scripts
-- **Sherpa-ONNX Models**: See models section below
+### Operating System
+- **macOS**: 11.0+ (Big Sur or later)
+- **Linux**: Ubuntu 20.04+, Debian 11+, or equivalent
+- **Arch**: x86_64 or ARM64 (Apple Silicon supported)
+
+### Dependencies
+
+| Component | Version | Installation |
+|-----------|---------|---------------|
+| **Clawdbot** | Latest | `npm install -g clawdbot@latest` |
+| **Node.js** | 22+ | `brew install node` (macOS) or `nvm install 22` |
+| **Python** | 3.8+ | `brew install python3` (macOS) or `apt install python3` |
+| **FFmpeg** | 4.0+ | `brew install ffmpeg` (macOS) or `apt install ffmpeg` |
+| **pip3** | Latest | Included with Python 3 |
+
+### Hardware Requirements
+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| **RAM** | 4 GB | 8 GB+ |
+| **Storage** | 2 GB free | 4 GB+ free (for models) |
+| **CPU** | Any modern CPU | Apple Silicon M1/M2/M3 or Intel Core i5+ |
+
+### Network Requirements
+- **Required**: For downloading models and dependencies (initial setup only)
+- **Runtime**: Fully offline after installation
 
 ## 🔧 Sherpa-ONNX Models
 
