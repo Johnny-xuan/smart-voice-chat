@@ -1,0 +1,71 @@
+# SmartVoice Chat Configuration File
+
+# Voice settings
+voice:
+  # Input mode: auto, voice_only, text_only
+  input_mode: auto
+  
+  # Output mode: dual (text+voice), voice_only, text_only
+  output_mode: dual
+  
+  # Auto-play TTS output
+  auto_play: true
+  
+  # Default audio player (macOS: afplay, mpv, etc.)
+  audio_player: afplay
+
+# STT (Speech-to-Text) settings
+stt:
+  # Model: sherpa-onnx-paraformer
+  model_path: ~/.clawdbot/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09
+  model_file: model.onnx
+  tokens_file: tokens.txt
+  
+  # Language: zh-en (Chinese+English mixed)
+  language: zh-en
+  
+  # Number of threads for inference
+  num_threads: 4
+
+# TTS (Text-to-Speech) settings
+tts:
+  # Model: sherpa-onnx-vits-melo
+  model_path: ~/.clawdbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en
+  model_file: model.onnx
+  tokens_file: tokens.txt
+  lexicon_file: lexicon.txt
+  rule_fsts: date.fst,number.fst
+  
+  # Output format
+  output_format: wav
+  sample_rate: 22050
+  
+  # Number of threads for inference
+  num_threads: 4
+
+# Agent settings
+agent:
+  name: Fox
+  provider: clawdbot
+
+# Intent keywords (for output mode control)
+intent_keywords:
+  voice_only:
+    - "用语音回答"
+    - "读出来"
+    - "说一下"
+  text_only:
+    - "用文字回答"
+    - "不用读"
+    - "只显示"
+
+# Supported audio formats for input
+supported_formats:
+  - wav
+  - mp3
+  - m4a
+  - ogg
+  - opus
+
+# Temporary directory for audio processing
+temp_dir: /tmp/smart-voice-chat
