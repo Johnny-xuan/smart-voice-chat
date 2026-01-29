@@ -162,25 +162,25 @@ metadata: {"clawdbot":{"emoji":"🗣️","os":["darwin","linux"],"requires":{"an
 ### Default Mirror Mode
 
 ```
-You: [Voice message] "今天天气怎么样"
-AI:  [Voice + Text] "今天晴天，气温25度"
+You: [Voice message] "What's the weather like today?"
+AI:  [Voice + Text] "It's sunny today, 25°C"
 ```
 
 ```
-You: "今天天气怎么样"
-AI:  "今天晴天，气温25度" [Text only]
+You: "What's the weather like today?"
+AI:  "It's sunny today, 25°C" [Text only]
 ```
 
 ### Override with Keywords
 
 ```
-You: "用语音回答：明天会下雨吗"
-AI:  [Voice only] "明天可能有小雨"
+You: "Reply with voice: Will it rain tomorrow?"
+AI:  [Voice only] "It might rain lightly tomorrow"
 ```
 
 ```
-You: "用文字回答：现在几点了"
-AI:  [Text only] "现在是下午4点"
+You: "Reply with text: What time is it now?"
+AI:  [Text only] "It's 4 PM now"
 ```
 
 ## 🔧 Tech Stack
