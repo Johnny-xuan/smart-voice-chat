@@ -62,12 +62,13 @@ Use the transcribed/cleaned text as the user's actual message for AI processing.
 ```bash
 ~/.clawdbot/skills/smart-voice-chat/bin/tts.py \
   "<AI_RESPONSE_TEXT>" \
-  /tmp/smart-voice-chat/response_<timestamp>.wav
+  /tmp/smart-voice-chat/response_<timestamp>
 ```
+**Note**: TTS will automatically output .ogg format (Telegram voice message compatible)
 
 **Then attach the audio file to the reply:**
-- For Telegram: Use audioAsVoice: true with mediaUrl
-- For iMessage: Attach the .wav file
+- For Telegram: Use audioAsVoice: true with mediaUrl (.ogg file)
+- For iMessage: Attach the .ogg file (Telegram compatible format)
 - For other channels: Attach based on channel capabilities
 
 **For text-only mode:**
@@ -156,7 +157,7 @@ tts:
 ```json
 {
   "text": "AI response text",
-  "mediaUrl": "/tmp/smart-voice-chat/response_xxx.wav",
+  "mediaUrl": "/tmp/smart-voice-chat/response_xxx.ogg",
   "audioAsVoice": true
 }
 ```
@@ -168,7 +169,7 @@ tts:
   "text": "AI response text",
   "attachments": [
     {
-      "original_path": "/tmp/smart-voice-chat/response_xxx.wav"
+      "original_path": "/tmp/smart-voice-chat/response_xxx.ogg"
     }
   ]
 }
@@ -185,7 +186,7 @@ tts:
 ## 📊 Supported Audio Formats
 
 **Input**: .wav, .mp3, .m4a, .ogg, .opus, .flac
-**Output**: .wav (can be converted to .ogg for Telegram optimization)
+**Output**: .ogg (OPUS encoded, Telegram voice message compatible)
 
 ---
 

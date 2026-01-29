@@ -51,26 +51,58 @@ class TTSModule:
         except:
             return {}
     
-    def synthesize(self, text, output_file=None):
+    def _convert_to_ogg(self, wav_file, ogg_file):
+        """
+        将 WAV 转换为 OGG (OPUS 编码) 用于 Telegram 语音消息
+
+        Args:
+            wav_file: WAV 文件路径
+            ogg_file: 输出 OGG 文件路径
+
+        Returns:
+            str: OGG 文件路径
+        """
+        cmd = [
+            'ffmpeg',
+            '-i', str(wav_file),
+            '-c:a', 'libopus',
+            '-ac', '1',  # 单声道
+            '-b:a', '24k',  # 比特率
+            '-application', 'voip',  # 语音优化
+            str(ogg_file),
+            '-y'  # 覆盖已存在文件
+        ]
+
+        try:
+            subprocess.run(cmd, capture_output=True, check=True)
+            return str(ogg_file)
+        except subprocess.CalledProcessError as e:
+            raise Exception(f"OGG 转换失败: {e.stderr.decode()}")
+
+    def synthesize(self, text, output_file=None, format='ogg'):
         """
         合成语音
-        
+
         Args:
             text: 要合成的文字
             output_file: 输出文件路径（可选，默认使用临时文件）
-            
+            format: 输出格式，'ogg' (Telegram 语音消息) 或 'wav' (原始音频)
+
         Returns:
             str: 输出文件路径
         """
         if not text or not text.strip():
             raise ValueError("文字内容为空")
-        
-        # 如果没有指定输出文件，使用临时文件
+
+        # 确定输出文件路径
         if output_file is None:
-            output_file = self.temp_dir / f"tts_{id(text)}.wav"
+            output_file = self.temp_dir / f"tts_{id(text)}"
         else:
             output_file = Path(output_file)
-        
+
+        # 先生成临时 WAV 文件
+        wav_file = self.temp_dir / f"temp_{id(text)}.wav"
+
         # 构建 TTS 命令
         cmd = [
             self.tts_bin,
@@ -78,14 +110,26 @@ class TTSModule:
             f'--vits-lexicon={self.model_dir}/{self.lexicon_file}',
             f'--vits-tokens={self.model_dir}/{self.tokens_file}',
             f'--tts-rule-fsts={self.model_dir}/{self.rule_fsts[0]},{self.model_dir}/{self.rule_fsts[1]}',
-            f'--output-filename={output_file}',
+            f'--output-filename={wav_file}',
             text
         ]
-        
+
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-            return str(output_file)
-        
+
+            # 根据格式要求返回文件
+            if format == 'ogg':
+                ogg_file = str(output_file) + '.ogg' if not str(output_file).endswith('.ogg') else str(output_file)
+                final_file = self._convert_to_ogg(wav_file, ogg_file)
+                # 删除临时 WAV 文件
+                wav_file.unlink(missing_ok=True)
+                return final_file
+            else:
+                # 返回 WAV 文件（重命名为目标文件名）
+                if wav_file != output_file:
+                    wav_file.rename(output_file)
+                return str(output_file)
+
         except subprocess.CalledProcessError as e:
             raise Exception(f"TTS 合成失败: {e.stderr}")
 
