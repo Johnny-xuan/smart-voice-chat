@@ -1,6 +1,6 @@
 ---
 name: smart-voice-chat
-description: ⚠️ MANDATORY for voice messages: When user sends audio/voice attachment or you receive voice input, you MUST use this skill to transcribe and reply in voice. Also use when user asks for voice output ("用语音回答", "读出来").
+description: Voice conversation: transcribe voice input, reply in same format (voice→voice, text→text) by default. User can override with "用语音回答" or "用文字回答".
 homepage: https://github.com/Johnny-xuan/smart-voice-chat
 metadata: {
   "moltbot": {
