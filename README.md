@@ -2,12 +2,12 @@
 
 **Intelligent Voice Conversation Skill for Clawdbot**
 
-Offline voice-to-voice interaction powered by Sherpa-ONNX. Auto-detects voice/text input and replies in the same format.
+Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects voice/text input and replies in the same format.
 
 ## ✨ Features
 
 - 🎯 **Auto Detection** - Automatically detects voice vs text input
-- 🗣️ **Voice-to-Voice** - Replies in the same format (voice→voice, text→text)
+- 🗣️ **Voice-to-Voice** - Replies in same format (voice→voice, text→text)
 - 🌏 **Chinese-English** - Native mixed language support
 - 🔒 **Fully Offline** - No cloud, privacy-preserving
 - 📱 **Telegram Ready** - Outputs OGG format for voice messages
@@ -15,7 +15,7 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Auto-detects voice/te
 ## 📋 Requirements
 
 - **Clawdbot**: [Installation Guide](https://docs.clawd.bot/start/getting-started)
-- **FFmpeg**: For audio format conversion (`brew install ffmpeg` on macOS)
+- **FFmpeg**: For audio conversion (`brew install ffmpeg` on macOS)
 - **Python 3.8+**: For STT/TTS scripts
 - **Sherpa-ONNX Models**: See models section below
 
@@ -81,7 +81,7 @@ cp -r ~/smart-voice-chat "$CLAWDBOT_SKILLS/"
 clawdbot skills list | grep smart-voice
 ```
 
-Should show: `│ ✓ ready │ 🗣️ smart-voice- │ ...`
+Expected output: `│ ✓ ready │ 🗣️ smart-voice- │ ...`
 
 5. **Restart Clawdbot**
 ```bash
