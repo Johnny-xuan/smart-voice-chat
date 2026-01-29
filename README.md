@@ -1,172 +1,117 @@
 # SmartVoice Chat 🗣️
 
-**An Intelligent Voice Conversation Skill for Moltbot**
+**Intelligent Voice Conversation Skill for Clawdbot**
 
-Offline voice interaction solution powered by Sherpa-ONNX, enabling natural voice conversations with AI agents.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Moltbot Skill](https://img.shields.io/badge/Moltbot-Skill-blue.svg)](https://github.com/moltbot)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+Offline voice-to-voice interaction powered by Sherpa-ONNX. Auto-detects voice/text input and replies in the same format.
 
 ## ✨ Features
 
-- 🎯 **Auto Input Detection** - Intelligently detects voice/text input
-- 🎛️ **Flexible Output Modes** - Keyword-controlled voice/text/dual output
-- 🌏 **Chinese-English Mixed** - Native support for mixed Chinese and English
-- 🔒 **Fully Offline** - No network connection required, privacy-preserving
-- 🤖 **Moltbot Integration** - Seamless integration as a Moltbot Skill
-- ⚙️ **Highly Configurable** - YAML configuration for customization
+- 🎯 **Auto Detection** - Automatically detects voice vs text input
+- 🗣️ **Voice-to-Voice** - Replies in the same format (voice→voice, text→text)
+- 🌏 **Chinese-English** - Native mixed language support
+- 🔒 **Fully Offline** - No cloud, privacy-preserving
+- 📱 **Telegram Ready** - Outputs OGG format for voice messages
 
-## 📦 This is a Moltbot Skill
+## 📦 Installation
 
-SmartVoice Chat is a **Skill** designed for [Moltbot](https://github.com/moltbot), enabling AI agents to have natural voice conversations:
-
-```
-┌─────────────────────────────────────────────────┐
-│              Moltbot (AI Agent)                 │
-│                                                 │
-│  You speak → SmartVoice Chat → Agent understands│
-│              Auto-detect, parse, process        │
-│                                                 │
-│  Agent replies → SmartVoice Chat → Voice output │
-│                   Smart output selection        │
-└─────────────────────────────────────────────────┘
-```
-
-## 🚀 Quick Start
-
-### Method 1: As Moltbot Skill (Recommended)
+### 1. Clone to Clawdbot Skills
 
 ```bash
-# Install to Moltbot skills directory
-git clone https://github.com/Johnny-xuan/smart-voice-chat.git \
-  ~/.moltbot/skills/smart-voice-chat
-
-cd ~/.moltbot/skills/smart-voice-chat
-./install.sh
-
-# Verify installation
-moltbot skills list | grep smart-voice
+# Copy to Clawdbot bundled skills directory
+CLAWDBOT_SKILLS="/Users/johnny/Library/pnpm/global/5/.pnpm/clawdbot@*/node_modules/clawdbot/skills/"
+cp -r ~/smart-voice-chat "$CLAWDBOT_SKILLS/"
 ```
 
-### Method 2: Standalone Usage
+### 2. Configure Sherpa-ONNX Models
+
+Make sure you have these models installed:
+
+- **STT**: `~/.clawdbot/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09`
+- **TTS**: `~/.clawdbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en`
+
+### 3. Restart Clawdbot
 
 ```bash
-# Clone repository
-git clone https://github.com/Johnny-xuan/smart-voice-chat.git
-cd smart-voice-chat
-
-# Install dependencies
-pip3 install -r requirements.txt
-
-# Run
-./bin/smart-voice.sh -i
+pkill -9 clawdbot
+clawdbot-gateway &
 ```
 
-## 💡 Usage Examples
+### 4. Verify
 
-### Basic Conversation
-
-```
-You: 今天天气怎么样
-AI: [Text] 今天晴天，气温25度
-    [Voice] 今天晴天，气温25度
+```bash
+clawdbot skills list | grep smart-voice
 ```
 
-### Output Mode Control
+Should show: `│ ✓ ready │ 🗣️ smart-voice- │ ...`
+
+## 💡 Usage
+
+### Default Mode (Mirror)
 
 ```
-You: 用语音回答：明天会下雨吗
-AI: [Voice only] 明天可能有小雨
-
-You: 用文字回答：现在几点了
-AI: [Text only] 现在是下午4点
+You: [Voice] "今天天气怎么样"
+AI:  [Voice + Text] "今天晴天，气温25度"
 ```
 
-### Chinese-English Mixed
-
 ```
-You: yesterday was 星期一 today is tuesday
-AI: [Recognized] 昨天是星期一，今天是星期二
+You: "今天天气怎么样"
+AI:  "今天晴天，气温25度" [Text only]
 ```
 
-## 🏗️ Project Structure
+### Override Mode
 
 ```
-smart-voice-chat/
-├── SKILL.md              # Moltbot Skill definition ⭐
-├── README.md             # Project documentation
-├── install.sh            # Installation script
-├── config/
-│   └── config.yaml       # Configuration file
-├── bin/                  # Core modules
-│   ├── smart-voice.sh    # Main entry point
-│   ├── detector.py       # Input type detection
-│   ├── parser.py         # Intent parsing
-│   ├── stt.py            # STT wrapper
-│   ├── tts.py            # TTS wrapper
-│   └── player.py         # Audio playback
-├── lib/
-│   └── orchestrator.py   # Flow orchestration
-└── tests/
-    └── test.sh           # Test suite
+You: "用语音回答：明天会下雨吗"
+AI:  [Voice only] "明天可能有小雨"
+```
+
+```
+You: "用文字回答：现在几点了"
+AI:  [Text only] "现在是下午4点"
 ```
 
 ## ⚙️ Configuration
 
-Edit `config/config.yaml` to customize behavior:
+### SKILL.md
 
 ```yaml
-voice:
-  input_mode: auto          # auto | voice_only | text_only
-  output_mode: dual         # dual | voice_only | text_only
-  auto_play: true           # Auto-play TTS output
+---
+name: smart-voice-chat
+description: "Voice conversation: transcribe voice input, reply in same format (voice-to-voice, text-to-text)"
+metadata: {"clawdbot":{"emoji":"🗣️","os":["darwin","linux"],"requires":{"anyBins":["ffmpeg"]}}}
+---
+```
 
-stt:
-  model_path: ~/.moltbot/tools/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09
-  language: zh-en           # Chinese-English mixed
+**Important**:
+- Use quotes for `description`
+- Avoid special characters like `→` (use `to` instead)
+- `requires` only supports: `bins`, `anyBins`, `env`, `config`
 
-tts:
-  model_path: ~/.moltbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en
+### clawdbot.json
+
+```json
+{
+  "skills": {
+    "entries": {
+      "smart-voice-chat": {
+        "env": {
+          "SMART_VOICE_CHAT_STT_MODEL": "/path/to/stt/model",
+          "SMART_VOICE_CHAT_TTS_MODEL": "/path/to/tts/model"
+        }
+      }
+    }
+  }
+}
 ```
 
 ## 🔧 Tech Stack
 
 | Component | Technology |
 |-----------|------------|
-| Skill Type | Moltbot Skill |
-| STT | Sherpa-ONNX Paraformer |
-| TTS | Sherpa-ONNX VITS-Melo |
+| STT | Sherpa-ONNX Paraformer (zh-en) |
+| TTS | Sherpa-ONNX VITS-Melo (zh-en) |
+| Audio | FFmpeg (WAV → OGG/OPUS) |
 | Language | Python 3 + Bash |
-| Config | YAML |
-
-## 📊 Comparison with Old voice-chat
-
-| Feature | SmartVoice Chat | voice-chat (old) |
-|---------|----------------|-----------------|
-| Auto input detection | ✅ Smart recognition | ❌ Manual recording |
-| Flexible output control | ✅ Keywords + config | ❌ Fixed mode |
-| Chinese-English mixed | ✅ Native support | ⚠️ Requires switching |
-| Configurable | ✅ YAML file | ❌ Hardcoded |
-| Skill packaging | ✅ Complete SKILL.md | ⚠️ Basic |
-
-## 🔌 Skill Dependencies
-
-```yaml
-metadata: {
-  "moltbot": {
-    "emoji": "🗣️",
-    "requires": {
-      "bins": ["smart-voice.sh"],
-      "python": ["sherpa-onnx", "yaml"]
-    }
-  }
-}
-```
-
-## 🤝 Contributing
-
-Issues and Pull Requests are welcome!
 
 ## 📄 License
 
@@ -174,13 +119,12 @@ MIT License - see [LICENSE](LICENSE)
 
 ## 🙏 Acknowledgments
 
-- [Moltbot](https://github.com/moltbot) - AI Agent Framework
+- [Clawdbot](https://github.com/clawdbot/clawdbot) - AI Agent Framework
 - [Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx) - Offline speech processing
 - [Paraformer](https://github.com/alibaba-damo-academy/FunASR) - Alibaba's ASR model
 - [VITS-Melo](https://github.com/myshell-ai/MeloTTS) - MyShell's TTS model
 
 ---
 
-**Author**: Johnny  
-**Moltbot Skill**: [smart-voice-chat](https://github.com/Johnny-xuan/smart-voice-chat)  
-**Purpose**: Enable intelligent voice conversation capabilities for AI agents
+**Author**: Johnny
+**GitHub**: [smart-voice-chat](https://github.com/Johnny-xuan/smart-voice-chat)

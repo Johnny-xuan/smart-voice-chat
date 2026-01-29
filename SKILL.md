@@ -1,17 +1,7 @@
 ---
 name: smart-voice-chat
-description: Voice conversation: transcribe voice input, reply in same format (voice→voice, text→text) by default. User can override with "用语音回答" or "用文字回答".
-homepage: https://github.com/Johnny-xuan/smart-voice-chat
-metadata: {
-  "moltbot": {
-    "emoji": "🗣️",
-    "requires": {
-      "bins": ["smart-voice.sh"],
-      "python": ["sherpa-onnx", "yaml"]
-    },
-    "skills": []
-  }
-}
+description: "Voice conversation: transcribe voice input, reply in same format (voice-to-voice, text-to-text) by default. User can override with voice or text commands."
+metadata: {"clawdbot":{"emoji":"🗣️","os":["darwin","linux"],"requires":{"anyBins":["ffmpeg"],"python":["sherpa-onnx","yaml"]}}}
 ---
 
 # SmartVoice Chat 🗣️
@@ -81,7 +71,7 @@ Use the transcribed/cleaned text as the user's actual message for AI processing.
 ```
 You: [Send voice message] "今天天气怎么样"
 
-AI: 
+AI:
   1. Detects voice attachment
   2. Runs STT → "今天天气怎么样"
   3. Processes AI → "今天晴天，气温25度"
@@ -137,7 +127,7 @@ Edit ~/.clawdbot/skills/smart-voice-chat/config/config.yaml:
 voice:
   input_mode: auto          # Auto-detect input type
   output_mode: mirror       # mirror = same format as input
-  auto_play: false          # Let Moltbot handle playback
+  auto_play: false          # Let Clawdbot handle playback
 
 # STT settings
 stt:
