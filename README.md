@@ -1,5 +1,11 @@
 # SmartVoice Chat 🗣️
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Clawdbot Skill](https://img.shields.io/badge/Clawdbot-Skill-blue.svg)](https://github.com/clawdbot/clawdbot)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/clawdbot/clawdbot)
+[![Offline](https://img.shields.io/badge/offline-ready-green.svg)](https://github.com/k2-fsa/sherpa-onnx)
+
 **Intelligent Voice Conversation Skill for Clawdbot**
 
 Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects voice/text input and replies in the same format.
