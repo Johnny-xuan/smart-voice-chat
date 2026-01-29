@@ -60,12 +60,67 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects
 
 ### TTS (Text-to-Speech) Options
 
-| Model | Language | Voice | Size |
-|-------|----------|-------|------|
-| [vits-melo-tts-zh_en](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-melo-tts-zh_en.tar.bz2) | Chinese-English | Female | 163MB |
-| [vits-piper-en_US-lessac-high](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-lessac-high.tar.bz2) | English | Male | 500MB |
+#### Chinese-English (Recommended)
+
+| Model | Voice | Size | Download |
+|-------|-------|------|----------|
+| **vits-melo-tts-zh_en** | Female | 163MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-melo-tts-zh_en.tar.bz2) |
+| **vits-piper-zh_CN-huayan** | Female | 300MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-zh_CN-huayan-medium.tar.bz2) |
+
+#### English Voices
+
+| Model | Accent | Voice | Size | Download |
+|-------|--------|-------|------|----------|
+| **vits-piper-en_US-lessac-high** | American | Male | 500MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-lessac-high.tar.bz2) |
+| **vits-piper-en_US-glados** | American | Female | 300MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-glados-medium.tar.bz2) |
+| **vits-piper-en_GB-semaine** | British | Female | 300MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_GB-semaine-medium.tar.bz2) |
+| **vits-piper-en_GB-lessac** | British | Male | 500MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_GB-lessac-medium.tar.bz2) |
+
+#### Japanese
+
+| Model | Voice | Size | Download |
+|-------|-------|------|----------|
+| **vits-vctk** | Multi-speaker | 500MB+ | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-vctk.tar.bz2) |
+
+#### Spanish
+
+| Model | Voice | Size | Download |
+|-------|-------|------|----------|
+| **vits-piper-es_ES-vox** | Female | 300MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-es_ES-vox-medium.tar.bz2) |
+
+#### French
+
+| Model | Voice | Size | Download |
+|-------|-------|------|----------|
+| **vits-piper-fr_FR-siwis** | Female | 300MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-fr_FR-siwis-medium.tar.bz2) |
+
+#### German
+
+| Model | Voice | Size | Download |
+|-------|-------|------|----------|
+| **vits-piper-de_DE-thorsten-medium** | Male | 300MB | [Download](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-de_DE-thorsten-medium.tar.bz2) |
+
+#### Kokoro Multi-Language (103+ Speakers)
+
+| Model | Languages | Speakers | Size |
+|-------|-----------|----------|------|
+| [kokoro-multi-lang-v1_0](https://huggingface.co/csukuangfj/kokoro-multi-lang-v1_0.onnx) | Multi | 103+ | Large |
 
 **Recommended**: `vits-melo-tts-zh_en` for mixed Chinese-English.
+
+### 🎧 Try Before You Download
+
+Listen to samples at the [Sherpa-ONNX Text-to-Speech Space](https://huggingface.co/spaces/k2-fsa/text-to-speech) on HuggingFace.
+
+### 📚 More Languages and Models
+
+Sherpa-ONNX supports **40+ languages** and **100+ pre-trained models**:
+
+- **Full Model List**: [https://k2-fsa.github.io/sherpa/onnx/tts/all/](https://k2-fsa.github.io/sherpa/onnx/tts/all/)
+- **VITS Models**: [https://k2-fsa.github.io/sherpa/onnx/tts/pretrained_models/vits.html](https://k2-fsa.github.io/sherpa/onnx/tts/pretrained_models/vits.html)
+- **GitHub Releases**: [https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models](https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models)
+
+Supported languages include: Arabic, Bulgarian, Chinese, Czech, Danish, Dutch, English, Finnish, French, German, Greek, Hindi, Hungarian, Italian, Japanese, Korean, Norwegian, Polish, Portuguese, Romanian, Russian, Spanish, Swedish, Thai, Turkish, Ukrainian, Vietnamese, and more.
 
 ## 📦 Installation
 
