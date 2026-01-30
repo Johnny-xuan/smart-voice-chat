@@ -18,6 +18,12 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects
 - 🔒 **Fully Offline** - No cloud, privacy-preserving
 - 📱 **Telegram Ready** - Outputs OGG format for voice messages
 
+## 🖼️ Demo
+
+### Voice Conversation Interface
+
+<img src="./image/bdfd6faf71883d04c6430c75ab0f72b4.jpg" alt="SmartVoice Chat Demo" width="600"/>
+
 ## 📋 System Requirements
 
 ### Operating System
