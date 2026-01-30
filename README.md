@@ -49,12 +49,13 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects
 
 #### STT Model Options (Speech-to-Text)
 
-| Model | Size | Language | Best For |
-|-------|------|----------|----------|
-| `sherpa-onnx-paraformer-zh-small-2024-03-09` | 74 MB | Chinese | **4GB RAM systems** |
-| `sherpa-onnx-streaming-zh-en-2024-03-12` | 490 MB | Chinese-English | **Real-time transcription** |
-| `sherpa-onnx-paraformer-zh-2024-03-09` | 950 MB | Chinese-English | **Best accuracy (8GB+ RAM)** |
-| `sherpa-onnx-paraformer-en-2024-03-09` | 974 MB | **English Only** | **English speakers** |
+| Model | Date | Size | Language | WER | Best For |
+|-------|------|------|----------|-----|----------|
+| `sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03` | 2025-07 | 350 MB | Chinese | 1.74% | **Latest, balanced** |
+| `sherpa-onnx-paraformer-zh-small-2024-03-09` | 2024-03 | 74 MB | Chinese | - | **4GB RAM systems** |
+| `sherpa-onnx-streaming-zh-en-2024-03-12` | 2024-03 | 490 MB | Chinese-English | - | **Real-time transcription** |
+| `sherpa-onnx-paraformer-zh-2024-03-09` | 2024-03 | 950 MB | Chinese-English | - | **Best accuracy (8GB+)** |
+| `sherpa-onnx-paraformer-en-2024-03-09` | 2024-03 | 974 MB | **English** | - | **English speakers** |
 
 #### TTS Model Options (Text-to-Speech)
 
@@ -69,12 +70,14 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects
 | RAM | STT Model | TTS Model | Total |
 |-----|-----------|-----------|-------|
 | **4 GB** | `paraformer-zh-small` (74MB) | `vits-melo-tts-zh_en` (163MB) | ~240 MB |
-| **4-8 GB** | `streaming-zh-en` (490MB) | `vits-melo-tts-zh_en` (163MB) | ~650 MB |
-| **8 GB+ (Chinese)** | `paraformer-zh` (950MB) | `vits-melo-tts-zh_en` (163MB) | ~1.1 GB |
+| **4-8 GB (Chinese)** | `zipformer-ctc-zh-int8` (350MB) | `vits-melo-tts-zh_en` (163MB) | ~510 MB |
+| **4-8 GB (Mixed)** | `streaming-zh-en` (490MB) | `vits-melo-tts-zh_en` (163MB) | ~650 MB |
+| **8 GB+ (Chinese)** | `zipformer-ctc-zh-int8` (350MB) | `vits-melo-tts-zh_en` (163MB) | ~510 MB |
+| **8 GB+ (Mixed)** | `paraformer-zh` (950MB) | `vits-melo-tts-zh_en` (163MB) | ~1.1 GB |
 | **8 GB+ (English)** | `paraformer-en` (974MB) | `vits-piper-en_US-lessac` (500MB) | ~1.5 GB |
 
 **Recommended Setup** (for most users):
-- STT: `sherpa-onnx-paraformer-zh-2024-03-09` (best accuracy)
+- STT: `sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03` (latest, WER 1.74%)
 - TTS: `vits-melo-tts-zh_en` (natural bilingual voice)
 
 **Apple Silicon Tip**: M1/M2/M3 chips handle all models efficiently due to neural engine acceleration.
@@ -87,12 +90,15 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects
 
 ### STT (Speech-to-Text) Options
 
-| Model | Language | Size | Speed | Accuracy |
-|-------|----------|------|-------|----------|
-| [sherpa-onnx-paraformer-zh-2024-03-09](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2024-03-09.tar.bz2) | Chinese | 950MB | Fast | High |
-| [sherpa-onnx-streaming-zh-en-2024-03-12](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zh-en-2024-03-12.tar.bz2) | Chinese-English | 490MB | Very Fast | Medium |
+| Model | Date | Language | Size | WER | Download |
+|-------|------|----------|------|-----|----------|
+| [zipformer-ctc-zh-int8](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03.tar.bz2) | 2025-07 | Chinese | 350MB | 1.74% | [tar.bz2](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03.tar.bz2) |
+| [paraformer-zh-small](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-small-2024-03-09.tar.bz2) | 2024-03 | Chinese-English | 74MB | - | [tar.bz2](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-small-2024-03-09.tar.bz2) |
+| [streaming-zh-en](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zh-en-2024-03-12.tar.bz2) | 2024-03 | Chinese-English | 490MB | - | [tar.bz2](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zh-en-2024-03-12.tar.bz2) |
+| [paraformer-zh](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2024-03-09.tar.bz2) | 2024-03 | Chinese-English | 950MB | - | [tar.bz2](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2024-03-09.tar.bz2) |
+| [paraformer-en](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-en-2024-03-09.tar.bz2) | 2024-03 | English | 974MB | - | [tar.bz2](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-en-2024-03-09.tar.bz2) |
 
-**Recommended**: `sherpa-onnx-paraformer-zh-2024-03-09` for best accuracy.
+**Recommended**: `zipformer-ctc-zh-int8-2025-07-03` for Chinese users (latest, WER 1.74%)
 
 ### TTS (Text-to-Speech) Options
 
@@ -177,10 +183,10 @@ mv sherpa-onnx*/* ~/.clawdbot/sherpa-asr/runtime/
 
 3. **Download models**
 ```bash
-# STT Model (Chinese)
+# STT Model (Chinese - Latest 2025)
 mkdir -p ~/.clawdbot/sherpa-asr/models
 cd ~/.clawdbot/sherpa-asr/models
-curl -L https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2024-03-09.tar.bz2 | tar xjf -
+curl -L https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03.tar.bz2 | tar xjf -
 
 # TTS Model (Chinese-English)
 mkdir -p ~/.clawdbot/tools/sherpa-onnx-tts/models
@@ -220,7 +226,7 @@ Add to `~/.clawdbot/clawdbot.json`:
     "entries": {
       "smart-voice-chat": {
         "env": {
-          "SMART_VOICE_CHAT_STT_MODEL": "~/.clawdbot/sherpa-asr/models/sherpa-onnx-paraformer-zh-2024-03-09",
+          "SMART_VOICE_CHAT_STT_MODEL": "~/.clawdbot/sherpa-asr/models/sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03",
           "SMART_VOICE_CHAT_TTS_MODEL": "~/.clawdbot/tools/sherpa-onnx-tts/models/vits-melo-tts-zh_en",
           "SMART_VOICE_CHAT_OUTPUT_DIR": "/tmp/smart-voice-chat"
         }
@@ -278,7 +284,7 @@ AI:  [Text only] "It's 4 PM now"
 
 | Component | Technology |
 |-----------|------------|
-| STT | Sherpa-ONNX Paraformer (zh-en) |
+| STT | Sherpa-ONNX Zipformer CTC (zh, int8, WER 1.74%) |
 | TTS | Sherpa-ONNX VITS-Melo (zh-en) |
 | Audio | FFmpeg (WAV → OGG/OPUS) |
 | Language | Python 3 + Bash |
