@@ -172,7 +172,26 @@ Supported languages include: Arabic, Bulgarian, Chinese, Czech, Danish, Dutch, E
 
 ## 📦 Installation
 
-### Quick Install (Recommended)
+### Method 1: AI-Assisted Install (Easiest) 🤖
+
+**Just share this repository URL with Claude Code:**
+
+```
+https://github.com/Johnny-xuan/smart-voice-chat
+```
+
+Then say: *“Help me install this voice chat skill for Clawdbot”*
+
+Claude Code will:
+- ✅ Clone the repository
+- ✅ Download Sherpa-ONNX runtime
+- ✅ Download and configure models
+- ✅ Install to your Clawdbot skills directory
+- ✅ Handle all the technical details for you
+
+---
+
+### Method 2: Manual Install
 
 1. **Clone this repository**
 ```bash
