@@ -45,34 +45,37 @@ Offline voice-to-voice interaction powered by Sherpa-ONNX. Automatically detects
 
 ### Model Selection by Hardware
 
-Choose the right model based on your computer's configuration:
+**Important**: This skill uses **one STT model** + **one TTS model**. Choose the STT model based on your RAM and language needs.
 
-#### Low-End Systems (4-8 GB RAM)
+#### STT Model Options (Speech-to-Text)
 
-| Use Case | STT Model | TTS Model | Total Size |
-|----------|-----------|-----------|------------|
-| Chinese Only | `sherpa-onnx-streaming-zh-en-2024-03-12` (490MB) | `vits-piper-zh_CN-huayan-medium` (300MB) | ~800 MB |
-| English Only | `sherpa-onnx-streaming-zh-en-2024-03-12` (490MB) | `vits-piper-en_US-lessac-high` (500MB) | ~1 GB |
-| Mixed (推荐) | `sherpa-onnx-streaming-zh-en-2024-03-12` (490MB) | `vits-melo-tts-zh_en` (163MB) | ~650 MB |
+| Model | Size | Language | Best For |
+|-------|------|----------|----------|
+| `sherpa-onnx-paraformer-zh-small-2024-03-09` | 74 MB | Chinese | **4GB RAM systems** |
+| `sherpa-onnx-streaming-zh-en-2024-03-12` | 490 MB | Chinese-English | **Real-time transcription** |
+| `sherpa-onnx-paraformer-zh-2024-03-09` | 950 MB | Chinese-English | **Best accuracy (8GB+ RAM)** |
+| `sherpa-onnx-paraformer-en-2024-03-09` | 974 MB | **English Only** | **English speakers** |
 
-#### Mid-Range Systems (8-16 GB RAM) - Recommended
+#### TTS Model Options (Text-to-Speech)
 
-| Use Case | STT Model | TTS Model | Total Size |
-|----------|-----------|-----------|------------|
-| Chinese Focus | `sherpa-onnx-paraformer-zh-2024-03-09` (950MB) | `vits-melo-tts-zh_en` (163MB) | ~1.1 GB |
-| Mixed (推荐) | `sherpa-onnx-paraformer-zh-2024-03-09` (950MB) | `vits-melo-tts-zh_en` (163MB) | ~1.1 GB |
+| Model | Size | Language/Voice | Best For |
+|-------|------|----------------|----------|
+| `vits-melo-tts-zh_en` | 163 MB | Chinese-English (Female) | **Mixed CEN-EN speech (推荐)** |
+| `vits-piper-en_US-lessac-high` | 500 MB | English (Male) | **English-only TTS** |
+| `vits-piper-zh_CN-huayan-medium` | 300 MB | Chinese (Female) | **Chinese-only TTS** |
 
-#### High-End Systems (16+ GB RAM)
+#### Quick Decision Guide
 
-| Use Case | STT Model | TTS Model | Total Size |
-|----------|-----------|-----------|------------|
-| Best Accuracy | `sherpa-onnx-paraformer-zh-2024-03-09` (950MB) | `vits-piper-zh_CN-huayan-medium` (300MB) | ~1.3 GB |
-| Multiple Voices | `sherpa-onnx-paraformer-zh-2024-03-09` (950MB) | `vits-piper-en_US-lessac-high` + `vits-melo-tts-zh_en` | ~1.6 GB |
+| RAM | STT Model | TTS Model | Total |
+|-----|-----------|-----------|-------|
+| **4 GB** | `paraformer-zh-small` (74MB) | `vits-melo-tts-zh_en` (163MB) | ~240 MB |
+| **4-8 GB** | `streaming-zh-en` (490MB) | `vits-melo-tts-zh_en` (163MB) | ~650 MB |
+| **8 GB+ (Chinese)** | `paraformer-zh` (950MB) | `vits-melo-tts-zh_en` (163MB) | ~1.1 GB |
+| **8 GB+ (English)** | `paraformer-en` (974MB) | `vits-piper-en_US-lessac` (500MB) | ~1.5 GB |
 
-**Quick Decision Guide**:
-- **4GB RAM** → Use `streaming` STT + `melo` TTS
-- **8GB RAM** → Use `paraformer` STT + `melo` TTS (推荐)
-- **16GB+ RAM** → Use any combination for best quality
+**Recommended Setup** (for most users):
+- STT: `sherpa-onnx-paraformer-zh-2024-03-09` (best accuracy)
+- TTS: `vits-melo-tts-zh_en` (natural bilingual voice)
 
 **Apple Silicon Tip**: M1/M2/M3 chips handle all models efficiently due to neural engine acceleration.
 
